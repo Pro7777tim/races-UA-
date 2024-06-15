@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Гонки</title>
+     <style>
+      h2 {
+   color: Yellow;
+}
+      </style>
+  </head>
+  <body>
+<script src="https://code.jquery.com/jquery-2.1.0.js"></script>
+<img id="track" width=1920 height=1080 src="track.gif">
+<script>
+//Creating a function for music and adding background music
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+var soundWin = new sound("zvuk-pobedyi.mp3");
+var soundRace = new sound("obgon.mp3");
+var speedTesla = 0;
+var speedNissan = 0;
+var speedLamborghini = 0;
+var speedDeterminant = function () {
+if (tesla.x > nissan.x && tesla.x > lamborghini.x) {return speedTesla}
+else if (tesla.x < nissan.x && lamborghini.x < nissan.x) {return speedNissan}
+else if (lamborghini.x > nissan.x && lamborghini.x > tesla.x) {return speedLamborghini}
+else {return getRandomNumber(25)}
+}
+var getRandomNumber = function (число) {return Math.floor(Math.random() * число)};
+var Car = function (x, y, src, speed) {
+this.x = x;
+this.y = y;
+this.src = src;
+this.speed = speed;
+};
+Car.prototype.draw = function () {
+var carHtml = "<img width=322.5 height=193.5 src=" + this.src + ">";
+this.carElement = $(carHtml);
+$("body").append(this.carElement);
+this.carElement.css({
+position: "absolute",
+left: this.x,
+top: this.y
+})
+}
+Car.prototype.moveRight = function (speed) {
+this.x += speed;
+this.carElement.css({
+position: "absolute",
+left: this.x,
+top: this.y
+})
+}
+var nissan = new Car(1300, 380, 'nissan.png');
+var tesla = new Car(1300, 40, 'tesla.png');
+var camera = new Car(1600, 380, 'camera.png');
+var lamborghini = new Car(1300, 700, 'lamborghini.png');
+tesla.draw();
+nissan.draw();
+camera.draw();
+lamborghini.draw();
+soundRace.play();
+setInterval(function(){soundRace.play()}, 1000);
+setInterval(function() {
+speedTesla = getRandomNumber(25);
+speedNissan = getRandomNumber(25);
+speedLamborghini = getRandomNumber(25);
+tesla.moveRight(speedTesla);
+nissan.moveRight(speedNissan);
+lamborghini.moveRight(speedLamborghini);
+camera.moveRight(speedDeterminant());
+window.scrollTo(camera.x - 1600, 0);
+$("h2").offset({
+left: camera.x - 1600,
+top: 800
+})
+$("h2").text(document.documentElement.scrollWidth + "/25000");
+$("#track").offset({
+left: camera.x - 1600,
+top: 0
+})
+if (document.documentElement.scrollWidth > 25000) {
+soundWin.play();
+if (speedDeterminant() == speedTesla) {alert("Перемогла Тесла!"); location.reload()}
+else if (speedDeterminant() == speedNissan) {alert("Переміг Ніссан!");  location.reload()}
+else if (speedDeterminant() == speedLamborghini) {alert("Перемогла Ламборгіні!"); location.reload()}
+}}, 25)
+</script>
+<h2>
+</h2>
+  </body>
+</html>
