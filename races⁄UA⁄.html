@@ -29,6 +29,7 @@ function sound(src) {
 }
 var soundWin = new sound("zvuk-pobedyi.mp3");
 var soundRace = new sound("obgon.mp3");
+//Creating functions and variables
 var speedTesla = 0;
 var speedNissan = 0;
 var speedLamborghini = 0;
@@ -63,6 +64,7 @@ left: this.x,
 top: this.y
 })
 }
+//Creating and drawing cars
 var nissan = new Car(1300, 380, 'nissan.png');
 var tesla = new Car(1300, 40, 'tesla.png');
 var camera = new Car(1600, 380, 'camera.png');
@@ -71,6 +73,7 @@ tesla.draw();
 nissan.draw();
 camera.draw();
 lamborghini.draw();
+//Creating music playback and gameplay
 soundRace.play();
 setInterval(function(){soundRace.play()}, 1000);
 setInterval(function() {
